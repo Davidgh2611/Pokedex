@@ -1,0 +1,27 @@
+{
+    "common": {
+        "nexus": "Nexo",
+        "laboratory": "Laboratorio",
+        "favorites": "Favoritos",
+        "search_placeholder": "BUSCANDO DATOS POKÉMON...",
+        "all_types": "TODOS LOS TIPOS",
+        "id_asc": "ID ASCENDENTE",
+        "name_az": "NOMBRE A-Z",
+        "level_high": "NIVEL MÁS ALTO",
+        "back_to_terminal": "VOLVER A LA TERMINAL",
+        "deploy_to_team": "DESPLEGAR AL EQUIPO",
+        "evolution_protocol": "PROTOCOLO DE EVOLUCIÓN",
+        "nexus_rank": "RANGO NEXO (LVL)",
+        "strike_force": "FUERZA DE IMPACTO",
+        "defense_core": "NÚCLEO DE DEFENSA",
+        "response_velocity": "VELOCIDAD DE RESPUESTA"
+    },
+    "comparator": {
+        "title": "COMPARADOR NEXUS",
+        "select_a": "SELECCIONAR SUJETO A",
+        "select_b": "SELECCIONAR SUJETO B",
+        "awaiting_data": "ESPERANDO DATOS COMPLETOS...",
+        "select_combatant": "SELECCIONAR COMBATIENTE",
+        "locate_target": "LOCALIZAR OBJETIVO EN EL NEXO"
+    }
+}

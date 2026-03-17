@@ -1,0 +1,27 @@
+{
+    "common": {
+        "nexus": "Nexus",
+        "laboratory": "Laboratory",
+        "favorites": "Favorites",
+        "search_placeholder": "SEARCHING POKÉMON DATA...",
+        "all_types": "ALL TYPES",
+        "id_asc": "ID ASCENDING",
+        "name_az": "NAME A-Z",
+        "level_high": "HIGHEST LEVEL",
+        "back_to_terminal": "BACK TO TERMINAL",
+        "deploy_to_team": "DEPLOY TO TEAM",
+        "evolution_protocol": "EVOLUTION PROTOCOL",
+        "nexus_rank": "NEXUS RANK (LVL)",
+        "strike_force": "STRIKE FORCE",
+        "defense_core": "DEFENSE CORE",
+        "response_velocity": "RESPONSE VELOCITY"
+    },
+    "comparator": {
+        "title": "NEXUS COMPARATOR",
+        "select_a": "SELECT SUBJECT A",
+        "select_b": "SELECT SUBJECT B",
+        "awaiting_data": "AWAITING FULL DATA SET...",
+        "select_combatant": "SELECT COMBATANT",
+        "locate_target": "LOCATE TARGET IN NEXUS"
+    }
+}

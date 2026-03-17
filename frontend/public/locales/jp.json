@@ -1,0 +1,27 @@
+{
+    "common": {
+        "nexus": "ネクサス",
+        "laboratory": "研究所",
+        "favorites": "お気に入り",
+        "search_placeholder": "ポケモンデータを検索中...",
+        "all_types": "全タイプ",
+        "id_asc": "ID昇順",
+        "name_az": "名前順",
+        "level_high": "レベル順",
+        "back_to_terminal": "端末に戻る",
+        "deploy_to_team": "チームに出撃",
+        "evolution_protocol": "進化プロトコル",
+        "nexus_rank": "ネクサスランク (LVL)",
+        "strike_force": "攻撃力",
+        "defense_core": "防御コア",
+        "response_velocity": "反応速度"
+    },
+    "comparator": {
+        "title": "ネクサス・コンパレーター",
+        "select_a": "対象Aを選択",
+        "select_b": "対象Bを選択",
+        "awaiting_data": "データ待機中...",
+        "select_combatant": "戦闘員を選択",
+        "locate_target": "ネクサス内でターゲットを特定"
+    }
+}
