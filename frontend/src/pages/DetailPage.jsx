@@ -7,7 +7,9 @@ import ErrorMessage from '../components/ErrorMessage';
 import EvolutionFlow from '../components/EvolutionFlow';
 import { ArrowLeft, Shield, Sword, Zap, List, Target, CircleDot } from 'lucide-react';
 import { useTeam } from '../context/TeamContext';
+import { useAuth } from '../context/AuthContext';
 import { userPokemonService } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const typeThemeColors = {
     Fuego: 'from-red-500/20 to-orange-500/20',
@@ -43,6 +45,9 @@ export default function DetailPage() {
     const { id } = useParams();
     const { pokemon, imageUrl, loading, error } = usePokemonDetail(id);
     const { addToTeam, team } = useTeam();
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    
     const isAlreadyInTeam = team?.some(p => p.id === pokemon?.id);
     const isTeamFull = team?.length >= 6;
 
@@ -68,6 +73,7 @@ export default function DetailPage() {
     };
 
     const handleCapture = async () => {
+        if (!isAuthenticated) return navigate('/login');
         try {
             await userPokemonService.capture(pokemon.id, pokemon.nivel);
             alert(`¡Has capturado a ${pokemon.nombre}!`);

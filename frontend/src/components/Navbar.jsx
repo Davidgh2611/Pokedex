@@ -5,9 +5,12 @@ import { Sword, Trophy, Timer } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import SoundToggle from './SoundToggle';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useAuth } from '../context/AuthContext';
+import { LogIn, LogOut, User as UserIcon } from 'lucide-react';
 
 export default function Navbar() {
   const { t } = useTranslation();
+  const { isAuthenticated, user, logout } = useAuth();
   return (
     <nav className="sticky top-0 z-50 glass border-b border-white/10 dark:border-white/5 shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,6 +58,32 @@ export default function Navbar() {
               <div className="h-6 w-px bg-white/10 hidden md:block"></div>
               <SoundToggle />
               <ThemeToggle />
+              
+              <div className="h-6 w-px bg-white/10 mx-2"></div>
+              
+              {isAuthenticated ? (
+                <div className="flex items-center gap-4">
+                  <div className="hidden lg:flex flex-col items-end">
+                    <span className="text-[10px] font-cyber font-bold text-white uppercase tracking-tighter">{user?.username}</span>
+                    <span className="text-[8px] font-cyber text-pokemon-red uppercase tracking-widest">{user?.role}</span>
+                  </div>
+                  <button 
+                    onClick={logout}
+                    className="p-3 rounded-2xl bg-white/5 hover:bg-pokemon-red/20 text-gray-400 hover:text-pokemon-red transition-all group"
+                    title="Logout"
+                  >
+                    <LogOut size={18} className="group-hover:translate-x-0.5 transition-transform" />
+                  </button>
+                </div>
+              ) : (
+                <Link 
+                  to="/login"
+                  className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-pokemon-red text-white font-cyber font-bold text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_10px_20px_rgba(239,68,68,0.2)]"
+                >
+                  <LogIn size={14} />
+                  Access
+                </Link>
+              )}
             </div>
           </div>
         </div>

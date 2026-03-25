@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { ThemeProvider } from './context/ThemeContext';
 import { SoundProvider } from './context/SoundContext';
 import { TeamProvider } from './context/TeamContext';
+import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import DetailPage from './pages/DetailPage';
@@ -13,6 +14,7 @@ import AdminPage from './pages/AdminPage';
 import MyPokemonPage from './pages/MyPokemonPage';
 import HallOfFamePage from './pages/HallOfFamePage';
 import SearchBenchmarkPage from './pages/SearchBenchmarkPage';
+import LoginPage from './pages/LoginPage';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Creando un componente contenedor de transiciones
@@ -46,6 +48,7 @@ const AnimatedRoutes = () => {
         <Route path="/admin" element={<PageTransition><AdminPage /></PageTransition>} />
         <Route path="/hall-of-fame" element={<PageTransition><HallOfFamePage /></PageTransition>} />
         <Route path="/benchmark" element={<PageTransition><SearchBenchmarkPage /></PageTransition>} />
+        <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
@@ -53,20 +56,22 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <ThemeProvider>
-      <SoundProvider>
-        <TeamProvider>
-          <Router>
-            <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F0F] transition-colors duration-500 flex flex-col cyber-grid">
-              <Navbar />
-              <div className="flex-grow flex flex-col relative z-10 w-full overflow-hidden">
-                <AnimatedRoutes />
+    <AuthProvider>
+      <ThemeProvider>
+        <SoundProvider>
+          <TeamProvider>
+            <Router>
+              <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F0F] transition-colors duration-500 flex flex-col cyber-grid">
+                <Navbar />
+                <div className="flex-grow flex flex-col relative z-10 w-full overflow-hidden">
+                  <AnimatedRoutes />
+                </div>
               </div>
-            </div>
-          </Router>
-        </TeamProvider>
-      </SoundProvider>
-    </ThemeProvider>
+            </Router>
+          </TeamProvider>
+        </SoundProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

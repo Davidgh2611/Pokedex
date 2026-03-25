@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Target, Sword, Shield, Zap, CircleDashed, Repeat } from 'lucide-react';
+import { Target, Sword, Shield, Zap, CircleDashed, Repeat, Lock } from 'lucide-react';
 import { userPokemonService, pokemonService } from '../services/api';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function MyPokemonPage() {
+    const { isAuthenticated, loading: authLoading } = useAuth();
+    const navigate = useNavigate();
+    
     const [pokemonList, setPokemonList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showTradeModal, setShowTradeModal] = useState(false);
@@ -53,11 +58,28 @@ export default function MyPokemonPage() {
         }
     };
 
-    if (loading) {
+    if (authLoading || loading) {
         return (
             <div className="min-h-[80vh] flex flex-col items-center justify-center space-y-4">
                 <div className="w-16 h-16 border-4 border-pokemon-red border-t-transparent rounded-full animate-spin"></div>
-                <span className="font-cyber text-xs tracking-[0.3em] uppercase text-gray-400 animate-pulse">Loading Caught Pokemon...</span>
+                <span className="font-cyber text-xs tracking-[0.3em] uppercase text-gray-400 animate-pulse">Establishing Nexus...</span>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <div className="max-w-xl mx-auto px-4 py-20 text-center animate-scale-in">
+                <div className="w-20 h-20 bg-pokemon-red/10 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-pokemon-red/20 shadow-xl">
+                    <Lock className="text-pokemon-red w-10 h-10" />
+                </div>
+                <h2 className="text-3xl font-cyber font-bold text-white uppercase tracking-tighter mb-4">Access Denied</h2>
+                <p className="text-gray-500 font-cyber text-xs uppercase tracking-widest mb-10 leading-relaxed">
+                    Authentication is required to view your personal squad and captured Pokémon.
+                </p>
+                <Link to="/login" className="inline-flex items-center px-10 py-5 bg-pokemon-red text-white font-cyber font-bold text-xs uppercase tracking-[0.3em] rounded-2xl shadow-[0_15px_30px_rgba(239,68,68,0.3)] hover:scale-105 transition-all">
+                    Sync Credentials
+                </Link>
             </div>
         );
     }
