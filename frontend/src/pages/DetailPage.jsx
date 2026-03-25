@@ -5,7 +5,9 @@ import { usePokemonDetail } from '../hooks/usePokemonDetail';
 import TypeBadge from '../components/TypeBadge';
 import ErrorMessage from '../components/ErrorMessage';
 import EvolutionFlow from '../components/EvolutionFlow';
-import { ArrowLeft, Shield, Sword, Zap, List, Target } from 'lucide-react';
+import { ArrowLeft, Shield, Sword, Zap, List, Target, CircleDot } from 'lucide-react';
+import { useTeam } from '../context/TeamContext';
+import { userPokemonService } from '../services/api';
 
 const typeThemeColors = {
     Fuego: 'from-red-500/20 to-orange-500/20',
@@ -40,6 +42,9 @@ export default function DetailPage() {
     const { t } = useTranslation();
     const { id } = useParams();
     const { pokemon, imageUrl, loading, error } = usePokemonDetail(id);
+    const { addToTeam, team } = useTeam();
+    const isAlreadyInTeam = team?.some(p => p.id === pokemon?.id);
+    const isTeamFull = team?.length >= 6;
 
     if (loading) {
         return (
@@ -55,6 +60,21 @@ export default function DetailPage() {
     }
 
     const bgGradient = typeThemeColors[pokemon.tipo_principal] || 'from-pokemon-red/10 to-transparent';
+
+    const handleDeploy = () => {
+        if (!isAlreadyInTeam && !isTeamFull) {
+            addToTeam(pokemon);
+        }
+    };
+
+    const handleCapture = async () => {
+        try {
+            await userPokemonService.capture(pokemon.id, pokemon.nivel);
+            alert(`¡Has capturado a ${pokemon.nombre}!`);
+        } catch (err) {
+            alert('Error al capturar el Pokémon: ' + (err.response?.data?.error || err.message));
+        }
+    };
 
     return (
         <main className="min-h-[calc(100vh-5rem)] relative py-8 px-4 overflow-hidden flex items-center">
@@ -112,9 +132,23 @@ export default function DetailPage() {
                             <StatBar icon={Zap} label={t('common.response_velocity')} value={pokemon.velocidad} color="text-amber-400" />
                         </div>
 
-                        <div className="mt-16 pt-8 border-t border-gray-100 dark:border-white/5">
-                            <button className="w-full py-4 rounded-2xl bg-pokemon-red text-white font-cyber font-bold text-xs uppercase tracking-[0.3em] shadow-[0_10px_20px_rgba(238,21,21,0.3)] hover:shadow-[0_15px_30px_rgba(238,21,21,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98]">
-                                {t('common.deploy_to_team')}
+                        <div className="mt-16 pt-8 border-t border-gray-100 dark:border-white/5 flex gap-4">
+                            <button 
+                                onClick={handleDeploy}
+                                disabled={isAlreadyInTeam || isTeamFull}
+                                className={`flex-1 py-4 rounded-2xl text-white font-cyber font-bold text-xs uppercase tracking-[0.3em] transition-all
+                                ${isAlreadyInTeam ? 'bg-emerald-500/50 cursor-not-allowed shadow-[0_10px_20px_rgba(16,185,129,0.2)]'
+                                    : isTeamFull ? 'bg-gray-500/50 cursor-not-allowed shadow-none'
+                                    : 'bg-pokemon-red shadow-[0_10px_20px_rgba(238,21,21,0.3)] hover:shadow-[0_15px_30px_rgba(238,21,21,0.4)] hover:scale-[1.02] active:scale-[0.98]'}`}
+                            >
+                                {isAlreadyInTeam ? 'Deployed in Squad' : isTeamFull ? 'Squad Full' : t('common.deploy_to_team')}
+                            </button>
+
+                            <button
+                                onClick={handleCapture}
+                                className="flex-1 py-4 rounded-2xl bg-indigo-500 text-white font-cyber font-bold text-xs uppercase tracking-[0.3em] transition-all shadow-[0_10px_20px_rgba(99,102,241,0.3)] hover:shadow-[0_15px_30px_rgba(99,102,241,0.4)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                            >
+                                <CircleDot className="w-4 h-4" /> Capture
                             </button>
                         </div>
                     </div>

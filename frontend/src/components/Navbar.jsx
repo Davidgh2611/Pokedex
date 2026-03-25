@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Sword } from 'lucide-react';
+import { Sword, Trophy, Timer } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import SoundToggle from './SoundToggle';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -34,6 +34,17 @@ export default function Navbar() {
               </Link>
               <Link to="/team-builder" className="text-gray-400 hover:text-white transition-colors">
                 Squad
+              </Link>
+              <Link to="/my-pokemon" className="text-gray-400 hover:text-white transition-colors">
+                My Pokémon
+              </Link>
+              <Link to="/hall-of-fame" className="text-gray-400 hover:text-yellow-500 transition-colors flex items-center">
+                <Trophy size={12} className="mr-2" />
+                Hall of Fame
+              </Link>
+              <Link to="/benchmark" className="text-gray-400 hover:text-pokemon-red transition-colors flex items-center">
+                <Timer size={12} className="mr-2" />
+                Benchmark
               </Link>
               <Link to="/admin" className="text-gray-400 hover:text-emerald-500 transition-colors">
                 Admin

@@ -7,8 +7,16 @@ import { useSound } from '../context/SoundContext';
 export default function TeamBuilder() {
     const { t } = useTranslation();
     const { playSound } = useSound();
-    const [team, setTeam] = useState([]);
+    const [team, setTeam] = useState(() => {
+        const saved = localStorage.getItem('pokedex_strike_team');
+        return saved ? JSON.parse(saved) : [];
+    });
     const [analysis, setAnalysis] = useState({ weaknesses: [], strengths: [] });
+
+    // Save team to persistence whenever it changes
+    useEffect(() => {
+        localStorage.setItem('pokedex_strike_team', JSON.stringify(team));
+    }, [team]);
 
     const addToTeam = (pokemon) => {
         if (team.length >= 6) return;

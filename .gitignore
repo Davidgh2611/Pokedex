@@ -1,0 +1,22 @@
+# Node modules
+**/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+
+# Build outputs
+**/dist/
+**/build/
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
+
+# DB Backups (optional, but keep them for now)
+# backend/db/copia_pokedex.sql

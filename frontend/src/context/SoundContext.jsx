@@ -8,6 +8,24 @@ export const SoundProvider = ({ children }) => {
         const saved = localStorage.getItem('sound_muted');
         return saved === 'true';
     });
+    
+    // Guard contra errores de autoplay bloqueado del navegador
+    const [userInteracted, setUserInteracted] = useState(false);
+
+    useEffect(() => {
+        const handleInteraction = () => {
+            setUserInteracted(true);
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('keydown', handleInteraction);
+        };
+        window.addEventListener('click', handleInteraction);
+        window.addEventListener('keydown', handleInteraction);
+        
+        return () => {
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('keydown', handleInteraction);
+        };
+    }, []);
 
     const [sounds] = useState({
         click: new Howl({ src: ['https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3'], volume: 0.5 }),
@@ -20,12 +38,19 @@ export const SoundProvider = ({ children }) => {
     }, [muted]);
 
     const playSound = (name) => {
-        if (!muted && sounds[name]) {
-            sounds[name].play();
+        if (!muted && userInteracted && sounds[name]) {
+            try {
+                sounds[name].play();
+            } catch (error) {
+                console.warn("Audio play failed (likely browser block):", error);
+            }
         }
     };
 
-    const toggleMute = () => setMuted(prev => !prev);
+    const toggleMute = () => {
+        setUserInteracted(true); // Toggling mute is an interaction
+        setMuted(prev => !prev);
+    };
 
     return (
         <SoundContext.Provider value={{ muted, toggleMute, playSound }}>

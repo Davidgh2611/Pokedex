@@ -26,4 +26,15 @@ const getTypes = async (req, res) => {
     res.json(types);
 };
 
-module.exports = { getAll, getById, searchPokemon, getTypes };
+const getTopCompetitivo = async (req, res) => {
+    const data = await PokemonModel.getTopCompetitivo();
+    res.json(data);
+};
+
+const searchBenchmark = async (req, res) => {
+    const { q = '' } = req.query;
+    const result = await PokemonModel.searchBenchmark(q);
+    res.json(result);
+};
+
+module.exports = { getAll, getById, searchPokemon, getTypes, getTopCompetitivo, searchBenchmark };

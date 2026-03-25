@@ -4,6 +4,15 @@ const api = axios.create({
     baseURL: 'http://localhost:3001',
 });
 
+// Interceptor para inyectar token JWT automáticamente
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+}, (error) => Promise.reject(error));
+
 // For external API (images)
 const pokeApi = axios.create({
     baseURL: 'https://pokeapi.co/api/v2',
@@ -32,6 +41,16 @@ export const pokemonService = {
     // Get distinct types
     async getTypes() {
         const { data } = await api.get('/pokemon/types');
+        return data;
+    },
+
+    async getTop10() {
+        const { data } = await api.get('/pokemon/top-competitivo');
+        return data;
+    },
+
+    async searchBenchmark(q) {
+        const { data } = await api.get('/pokemon/search-benchmark', { params: { q } });
         return data;
     },
 
@@ -74,6 +93,29 @@ export const pokemonService = {
 
     async removeFavorite(id) {
         const { data } = await api.delete(`/favorites/${id}`);
+        return data;
+    }
+};
+
+export const userPokemonService = {
+    async getMyPokemon() {
+        const { data } = await api.get('/my-pokemon');
+        return data;
+    },
+    async capture(pokemonId, nivel = 1) {
+        const { data } = await api.post('/my-pokemon', { pokemonId, nivel });
+        return data;
+    },
+    async train(id) {
+        const { data } = await api.put(`/my-pokemon/${id}/train`);
+        return data;
+    },
+    async release(id) {
+        const { data } = await api.delete(`/my-pokemon/${id}`);
+        return data;
+    },
+    async trade(pokemonId1, trainerId2, pokemonId2) {
+        const { data } = await api.post('/trade', { pokemonId1, trainerId2, pokemonId2 });
         return data;
     }
 };

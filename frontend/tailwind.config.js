@@ -23,6 +23,7 @@ export default {
         'shimmer': 'shimmer 1.5s infinite linear',
         'pulse-glow': 'pulseGlow 2s infinite',
         'float': 'float 3s ease-in-out infinite',
+        'grid-scroll': 'gridScroll 20s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -40,6 +41,10 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        gridScroll: {
+          '0%': { backgroundPosition: '0 0' },
+          '100%': { backgroundPosition: '40px 40px' },
         }
       },
       backdropBlur: {

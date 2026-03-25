@@ -4,9 +4,11 @@ import {
   RadarChart, 
   PolarGrid, 
   PolarAngleAxis, 
-  PolarRadiusAxis, 
-  ResponsiveContainer 
+  ResponsiveContainer,
+  Tooltip,
+  Legend
 } from 'recharts';
+
 export default function StatRadar({ stats1, stats2, name1, name2 }) {
     const data = [
         { subject: 'HP', A: stats1.hp || 50, B: stats2.hp || 50, fullMark: 255 },
@@ -16,12 +18,30 @@ export default function StatRadar({ stats1, stats2, name1, name2 }) {
         { subject: 'LVL', A: stats1.nivel, B: stats2.nivel, fullMark: 100 },
     ];
 
+    const CustomTooltip = ({ active, payload }) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="glass p-3 rounded-xl border-white/20 text-xs font-cyber">
+                    <p className="font-bold text-gray-800 dark:text-white mb-2 uppercase">{payload[0].payload.subject}</p>
+                    {payload.map((entry, index) => (
+                        <p key={`item-${index}`} style={{ color: entry.color }}>
+                            {entry.name}: {entry.value}
+                        </p>
+                    ))}
+                </div>
+            );
+        }
+        return null;
+    };
+
     return (
         <div className="w-full h-64 lg:h-80">
             <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+                <RadarChart cx="50%" cy="50%" outerRadius="70%" data={data}>
                     <PolarGrid stroke="#4B5563" />
                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#9CA3AF', fontSize: 10, fontWeight: 'bold' }} />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend wrapperStyle={{ fontSize: '10px', fontFamily: 'Orbitron', paddingTop: '20px' }} />
                     <Radar
                         name={name1}
                         dataKey="A"

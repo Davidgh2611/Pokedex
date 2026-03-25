@@ -18,6 +18,8 @@ app.use('/auth', require('./routes/auth.routes'));
 app.use('/favorites', require('./routes/favorite.routes'));
 app.use('/admin', require('./routes/admin.routes'));
 app.use('/pokemon', pokemonRoutes);
+app.use('/my-pokemon', require('./routes/userPokemon.routes'));
+app.use('/trade', require('./routes/trade.routes'));
 
 // Health check
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));

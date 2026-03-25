@@ -62,6 +62,17 @@ async function search(query) {
     return rows;
 }
 
+async function searchBenchmark(query) {
+    const start = process.hrtime();
+    const [rows] = await pool.query(
+        'SELECT * FROM pokemon WHERE nombre LIKE ?',
+        [`%${query}%`]
+    );
+    const end = process.hrtime(start);
+    const timeInMs = (end[0] * 1000 + end[1] / 1000000).toFixed(4);
+    return { results: rows, timeMs: timeInMs, count: rows.length };
+}
+
 /**
  * Get all distinct types for filter dropdown
  */
@@ -72,4 +83,9 @@ async function getTypes() {
     return rows.map(r => r.tipo_principal);
 }
 
-module.exports = { findAll, findById, search, getTypes };
+async function getTopCompetitivo() {
+    const [rows] = await pool.query('SELECT * FROM vista_top_competitivo');
+    return rows;
+}
+
+module.exports = { findAll, findById, search, getTypes, getTopCompetitivo, searchBenchmark };

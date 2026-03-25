@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getAll, getById, searchPokemon, getTypes } = require('../controllers/pokemon.controller');
+const { getAll, getById, searchPokemon, getTypes, getTopCompetitivo, searchBenchmark } = require('../controllers/pokemon.controller');
 
 const router = Router();
 
@@ -10,6 +10,12 @@ router.get('/search', searchPokemon);
 
 // GET /pokemon/types
 router.get('/types', getTypes);
+
+// GET /pokemon/top-competitivo
+router.get('/top-competitivo', getTopCompetitivo);
+
+// GET /pokemon/search-benchmark?q=char
+router.get('/search-benchmark', searchBenchmark);
 
 // GET /pokemon/:id/evolutions
 router.get('/:id/evolutions', evolutionController.getEvolutionChain);
